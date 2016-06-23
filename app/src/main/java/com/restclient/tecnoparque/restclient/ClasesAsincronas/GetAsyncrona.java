@@ -1,5 +1,7 @@
 package com.restclient.tecnoparque.restclient.ClasesAsincronas;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -20,9 +22,30 @@ public class GetAsyncrona extends AsyncTask<String, Void, String> {
     URL url;
     HttpURLConnection urlConnection;
     StringBuilder total;
+    private ProgressDialog progressDialog;
+
+    public interface AsyncResponse {
+        void processFinish(String output);
+    }
+    public AsyncResponse delegate = null;
+
+
+
+    public GetAsyncrona(Context cnt, AsyncResponse delegate) {
+        progressDialog = new ProgressDialog(cnt);
+        this.delegate = delegate;
+    }
 
     public void execute() {
         // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    protected void onPreExecute() {
+        this.progressDialog.setMessage("Descargando...");
+        this.progressDialog.setCanceledOnTouchOutside(false);
+        this.progressDialog.show();
     }
 
     //Variable ruta se guarda la URI del servicio GET a consumir
@@ -48,11 +71,14 @@ public class GetAsyncrona extends AsyncTask<String, Void, String> {
                 urlConnection.disconnect();
             }
         }
+
         return total.toString();
     }
 
     public void onPostExecute(String result) {
         super.onPostExecute(result);
+        delegate.processFinish(result);
+        progressDialog.dismiss();
         //Se retorna un string que contiene un JSON con los datos obtenidos
     }
 }

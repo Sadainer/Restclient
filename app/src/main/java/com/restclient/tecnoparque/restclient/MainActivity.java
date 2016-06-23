@@ -1,7 +1,10 @@
 package com.restclient.tecnoparque.restclient;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,13 +17,16 @@ import com.restclient.tecnoparque.restclient.ClasesAsincronas.GetAsyncrona;
 
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     EditText edtURI, edtData, edtRespuest;
     Spinner spiContent;
     Button btnConsumir, btnNuevo;
     RadioButton radGET, radPOST;
     RadioGroup radioGroup;
+    Context cnt;
+
+    private String URI = "https://maps.googleapis.com/maps/api/directions/json?origin=bosconia&destination=valledupar&key=AIzaSyBwuI_lYrCitgDzuaGDX7v77ZKH_8u8e2o";
 
 
     @Override
@@ -29,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
+        cnt = this;
         spiContent = (Spinner) findViewById(R.id.spiContent);
         spiContent = (Spinner) findViewById(R.id.spiContent);
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
@@ -61,15 +68,13 @@ public class MainActivity extends AppCompatActivity {
              @Override
              public void onClick(View v) {
 
-                 GetAsyncrona getAsyncrona = new GetAsyncrona();
-                 try {
-                     String Resultado = getAsyncrona.execute("http://190.109.185.138/codigoQR/api/miembro").get();
-                     edtRespuest.setText(Resultado.toString());
-                 } catch (InterruptedException e) {
-                     e.printStackTrace();
-                 } catch (ExecutionException e) {
-                     e.printStackTrace();
-                 }
+                 GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
+                     @Override
+                     public void processFinish(String output) {
+                        edtRespuest.setText(output);
+                     }
+                 }).execute(URI);
+
 
              }
          });
@@ -81,4 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
     }
+
+
 }
