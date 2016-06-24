@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.restclient.tecnoparque.restclient.ClasesAsincronas.GetAsyncrona;
 
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity  {
                  GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
                      @Override
                      public void processFinish(String output) {
+                         if (output.equals("")){
+                             Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
+                         }
                         edtRespuest.setText(output);
                      }
                  }).execute(URI);
