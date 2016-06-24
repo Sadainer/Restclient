@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity  {
              @Override
              public void onClick(View v) {
 
+                  URI = edtURI.getText().toString();
+
                  GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
                      @Override
                      public void processFinish(String output) {

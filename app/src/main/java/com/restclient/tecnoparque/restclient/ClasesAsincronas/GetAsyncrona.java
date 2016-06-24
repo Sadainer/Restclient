@@ -19,9 +19,8 @@ import java.net.URL;
  */
 public class GetAsyncrona extends AsyncTask<String, Void, String> {
 
-    URL url;
+
     HttpURLConnection urlConnection;
-    StringBuilder total;
     private ProgressDialog progressDialog;
 
     public interface AsyncResponse {
@@ -51,12 +50,13 @@ public class GetAsyncrona extends AsyncTask<String, Void, String> {
     //Variable ruta se guarda la URI del servicio GET a consumir
     @Override
     protected String doInBackground(String... ruta) {
+        StringBuilder total = new StringBuilder();
         try {
-            url = new URL(ruta[0]);
+            URL url = new URL(ruta[0]);
             urlConnection = (HttpURLConnection) url.openConnection();
             InputStream in = urlConnection.getInputStream();
             BufferedReader r = new BufferedReader(new InputStreamReader(in));
-            total = new StringBuilder();
+
             String line;
             while ((line = r.readLine()) != null) {
                 total.append(line);
