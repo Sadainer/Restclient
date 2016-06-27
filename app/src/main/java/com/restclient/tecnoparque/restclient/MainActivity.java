@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.restclient.tecnoparque.restclient.ClasesAsincronas.GetAsyncrona;
+import com.restclient.tecnoparque.restclient.ClasesAsincronas.PostAsyncrona;
 
 import java.util.concurrent.ExecutionException;
 
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity  {
         edtData = (EditText)findViewById(R.id.edtData);
         edtRespuest = (EditText)findViewById(R.id.edtRespuesta);
         edtURI = (EditText)findViewById(R.id.edtURI);
+        radGET = (RadioButton)findViewById(R.id.radGET);
+        radPOST = (RadioButton)findViewById(R.id.radPOST);
         btnConsumir = (Button)findViewById(R.id.butConsumir);
         btnNuevo = (Button)findViewById(R.id.butNuevo);
 
@@ -71,15 +74,34 @@ public class MainActivity extends AppCompatActivity  {
 
                   URI = edtURI.getText().toString();
 
-                 GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
-                     @Override
-                     public void processFinish(String output) {
-                         if (output.equals("")){
-                             Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
+                 if (radGET.isChecked()){
+                     GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
+                         @Override
+                         public void processFinish(String output) {
+                             Log.e("","1");
+                             if (output.equals("")){
+                                 Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
+                             }
+                             edtRespuest.setText(output);
                          }
-                        edtRespuest.setText(output);
-                     }
-                 }).execute(URI);
+                     }).execute(URI);
+                 }else if (radPOST.isChecked()){
+                     Log.e("","2");
+                     String Data = edtData.getText().toString();
+                     Log.e("","3");
+                     PostAsyncrona postAsyncrona = new PostAsyncrona(Data, cnt, new PostAsyncrona.AsyncResponse() {
+                         @Override
+                         public void processFinish(String output) {
+                             Log.e("","4");
+                             if (output.equals("")){
+                                 Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
+                             }
+                             Log.e("","4");
+                             edtRespuest.setText(output);
+                         }
+                     });
+                 }
+
 
 
              }

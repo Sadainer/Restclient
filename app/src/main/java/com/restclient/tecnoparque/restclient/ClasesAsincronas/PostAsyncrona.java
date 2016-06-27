@@ -21,12 +21,11 @@ import java.net.URL;
 public class PostAsyncrona extends AsyncTask<String, Void, String> {
 
     public interface AsyncResponse {
-
         void processFinish(String output);
-
     }
-
     public AsyncResponse delegate = null;
+
+
     private String mData = null;
     URL url;
     HttpURLConnection connection;
@@ -44,21 +43,6 @@ public class PostAsyncrona extends AsyncTask<String, Void, String> {
     public void execute() {
         // TODO Auto-generated method stub
 
-    }
-
-
-    //Variable ruta se guarda la URI del servicio GET a consumir
-
-
-    @Override
-    protected void onPreExecute() {
-
-
-      /*  prgEnviando.setTitle("MyAmbu");
-        prgEnviando.setMessage("Enviando ...");
-        Log.e("Onpreexecute", "Onpreexecute");
-        prgEnviando.show();
-*/
     }
 
 
@@ -118,7 +102,7 @@ public class PostAsyncrona extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         delegate.processFinish(result);
-     //   prgEnviando.dismiss();
+        prgEnviando.dismiss();
         Log.e("OnpostExecute","onpost");
     }
 }
