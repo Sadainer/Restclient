@@ -75,16 +75,13 @@ public class MainActivity extends AppCompatActivity  {
              @Override
              public void onClick(View v) {
 
-                 Log.e("Funciona","Funciona");
-                 Log.e("Funciona",ServicioGET.toString());
-
                   URI = edtURI.getText().toString();
 
                  if (ServicioGET){
                      GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
                          @Override
                          public void processFinish(String output) {
-                             Log.e("Funciona","1");
+
                              if (output.equals("")){
                                  Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
                              }
@@ -92,17 +89,14 @@ public class MainActivity extends AppCompatActivity  {
                          }
                      }).execute(URI);
                  }else{
-                     Log.e("Funciona","2");
+
                      String Data = edtData.getText().toString();
-                     Log.e("Funciona","3");
                      PostAsyncrona postAsyncrona = (PostAsyncrona) new PostAsyncrona(Data, cnt, new PostAsyncrona.AsyncResponse() {
                          @Override
                          public void processFinish(String output) {
-                             Log.e("Funciona","4");
                              if (output.equals("")){
                                  Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
                              }
-                             Log.e("Funciona","5");
                              edtRespuest.setText(output);
                             }
                          }).execute(URI);
