@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity  {
     RadioButton radGET, radPOST;
     RadioGroup radioGroup;
     Context cnt;
+    Boolean ServicioGET = true;
 
     private String URI = "https://maps.googleapis.com/maps/api/directions/json?origin=bosconia&destination=valledupar&key=AIzaSyBwuI_lYrCitgDzuaGDX7v77ZKH_8u8e2o";
 
@@ -60,9 +61,11 @@ public class MainActivity extends AppCompatActivity  {
                 switch(checkedId) {
                     case R.id.radGET:
                         edtData.setEnabled(false);
+                        ServicioGET = true;
                         break;
                     case R.id.radPOST:
                         edtData.setEnabled(true);
+                        ServicioGET = false;
                         break;
                 }
 
@@ -72,35 +75,38 @@ public class MainActivity extends AppCompatActivity  {
              @Override
              public void onClick(View v) {
 
+                 Log.e("Funciona","Funciona");
+                 Log.e("Funciona",ServicioGET.toString());
+
                   URI = edtURI.getText().toString();
 
-                 if (radGET.isChecked()){
+                 if (ServicioGET){
                      GetAsyncrona getAsyncrona = (GetAsyncrona) new GetAsyncrona(cnt, new GetAsyncrona.AsyncResponse() {
                          @Override
                          public void processFinish(String output) {
-                             Log.e("","1");
+                             Log.e("Funciona","1");
                              if (output.equals("")){
                                  Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
                              }
                              edtRespuest.setText(output);
                          }
                      }).execute(URI);
-                 }else if (radPOST.isChecked()){
-                     Log.e("","2");
+                 }else{
+                     Log.e("Funciona","2");
                      String Data = edtData.getText().toString();
-                     Log.e("","3");
-                     PostAsyncrona postAsyncrona = new PostAsyncrona(Data, cnt, new PostAsyncrona.AsyncResponse() {
+                     Log.e("Funciona","3");
+                     PostAsyncrona postAsyncrona = (PostAsyncrona) new PostAsyncrona(Data, cnt, new PostAsyncrona.AsyncResponse() {
                          @Override
                          public void processFinish(String output) {
-                             Log.e("","4");
+                             Log.e("Funciona","4");
                              if (output.equals("")){
                                  Toast.makeText(cnt,"Respuesta no contiene datos",Toast.LENGTH_SHORT).show();
                              }
-                             Log.e("","4");
+                             Log.e("Funciona","5");
                              edtRespuest.setText(output);
-                         }
-                     });
-                 }
+                            }
+                         }).execute(URI);
+                     }
 
 
 

@@ -40,11 +40,13 @@ public class PostAsyncrona extends AsyncTask<String, Void, String> {
         prgEnviando = new ProgressDialog(context);
 
     }
-    public void execute() {
-        // TODO Auto-generated method stub
 
+    @Override
+    protected void onPreExecute() {
+        this.prgEnviando.setMessage("Enviando...");
+        this.prgEnviando.setCanceledOnTouchOutside(false);
+        this.prgEnviando.show();
     }
-
 
 
     @Override
